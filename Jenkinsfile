@@ -14,7 +14,7 @@ podTemplate(label: 'docker',
       git 'https://github.com/simplytunde/tutorial.git'
       if (env.BRANCH_NAME == 'master') {
          container('helm') {
-             sh "helm upgrade blogapp-prod --set branch=master --set site=prod demo/helm/charts/blogapp/ --namespace prod"
+             sh "helm upgrade --recreate-pods blogapp-prod --set branch=master --set site=prod demo/helm/charts/blogapp/ --namespace prod"
          }
       }else{
         if (env.BRANCH_NAME == 'staging') {
