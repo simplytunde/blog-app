@@ -14,15 +14,17 @@ podTemplate(label: 'docker',
       git 'https://github.com/simplytunde/tutorial.git'
       if (env.BRANCH_NAME == 'master') {
          container('helm') {
-             sh "helm install --name blogapp-prod --set branch=master --set site=prod demo/helm/charts/blogapp/ --namespace prod"
+             sh "helm upgrade blogapp-prod --set branch=master --set site=prod demo/helm/charts/blogapp/ --namespace prod"
          }
       }else{
         if (env.BRANCH_NAME == 'staging') {
            container('helm') {
+              sh "helm del --purge blogapp-staging"
               sh "helm install --name blogapp-staging --set branch=staging --set site=staging demo/helm/charts/blogapp/ --namespace staging"
            }
         }else{
            container('helm') {
+               sh "helm del --purge blogapp-dev"
                sh "helm install --name blogapp-dev --set branch=dev --set site=dev demo/helm/charts/blogapp/ --namespace dev"
            }
         }
