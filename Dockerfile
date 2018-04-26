@@ -1,8 +1,8 @@
 FROM jekyll/jekyll
 
 COPY Gemfile .
-COPY Gemfile.lock .
 
+RUN gem update --system
 RUN bundle install --quiet --clean
 
 CMD ["jekyll", "serve"]
