@@ -19,13 +19,11 @@ podTemplate(label: 'docker',
       }else{
         if (env.BRANCH_NAME == 'staging') {
            container('helm') {
-              sh "helm del --purge blogapp-staging"
-              sh "helm install --name blogapp-staging --set branch=staging --set site=staging demo/helm/charts/blogapp/ --namespace staging"
+              sh "helm upgrade --recreate-pods blogapp-staging --set branch=staging --set site=staging demo/helm/charts/blogapp/ --namespace staging"
            }
         }else{
            container('helm') {
-               sh "helm del --purge blogapp-dev"
-               sh "helm install --name blogapp-dev --set branch=dev --set site=dev demo/helm/charts/blogapp/ --namespace dev"
+               sh "helm upgrade --recreate-pods blogapp-dev --set branch=dev --set site=dev demo/helm/charts/blogapp/ --namespace dev"
            }
         }
       }
